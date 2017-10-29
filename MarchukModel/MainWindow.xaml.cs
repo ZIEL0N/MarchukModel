@@ -23,6 +23,9 @@ namespace MarchukModel
     public partial class MainWindow : Window
     {
         ModelCalculator model;
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> YFormatter { get; set; }
 
         public MainWindow()
         {
@@ -32,10 +35,46 @@ namespace MarchukModel
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            DataContext = null;
+            SeriesCollection = null;
+            Labels = null;
             model.v0 = Double.Parse(vTextBox.Text);
             model.c0 = Double.Parse(cTextBox.Text);
             model.f0 = Double.Parse(fTextBox.Text);
-            Console.WriteLine(model.v0 + " " + model.c0 + " " + model.f0);
+            if (model.Simulate())
+            {
+                SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "V(t)",
+                    Values = new ChartValues<double>(model.vt),
+                    PointGeometry = null,
+                    PointGeometrySize = 15
+                },
+                new LineSeries
+                {
+                    Title = "C(t)",
+                    Values = new ChartValues<double>(model.ct),
+                    PointGeometry = null,
+                    PointGeometrySize = 15
+                },
+                new LineSeries
+                {
+                    Title = "F(t)",
+                    Values = new ChartValues<double>(model.ft),
+                    PointGeometry = null,
+                    PointGeometrySize = 15
+                }
+            };
+                string[] lbl = new string[model.vt.Count];
+                for (int i = 0; i < lbl.Length; i++) lbl[i] = i.ToString();
+
+                Labels = lbl;
+                //YFormatter = value => value.ToString("C");
+                
+                DataContext = this;
+            }
         }
     }
 }
