@@ -31,6 +31,20 @@ namespace MarchukModel
         {
             model = new ModelCalculator();
             InitializeComponent();
+
+            vTextBox.Text = model.v0.ToString();
+            cTextBox.Text = model.c0.ToString();
+            fTextBox.Text = model.f0.ToString();
+            maxtTextBox.Text = model.maxt.ToString();
+            alfaTextBox.Text = model.a.ToString();
+            betaTextBox.Text = model.b.ToString();
+            gammaTextBox.Text = model.g.ToString();
+            tetaTextBox.Text = model.tt.ToString();
+            rhoTextBox.Text = model.r.ToString();
+            etaTextBox.Text = model.n.ToString();
+            mfTextBox.Text = model.mf.ToString();
+            mcTextBox.Text = model.mc.ToString();
+            mmTextBox.Text = model.mm.ToString();
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -38,9 +52,22 @@ namespace MarchukModel
             DataContext = null;
             SeriesCollection = null;
             Labels = null;
-            model.v0 = Double.Parse(vTextBox.Text);
-            model.c0 = Double.Parse(cTextBox.Text);
-            model.f0 = Double.Parse(fTextBox.Text);
+            model.v0 = Double.Parse(vTextBox.Text.Replace('.',','));
+            model.c0 = Double.Parse(cTextBox.Text.Replace('.', ','));
+            model.f0 = Double.Parse(fTextBox.Text.Replace('.', ','));
+
+            model.maxt = Double.Parse(maxtTextBox.Text.Replace('.', ','));
+            model.a = Double.Parse(alfaTextBox.Text.Replace('.', ','));
+            model.b = Double.Parse(betaTextBox.Text.Replace('.', ','));
+            model.g = Double.Parse(gammaTextBox.Text.Replace('.', ','));
+            model.tt = Double.Parse(tetaTextBox.Text.Replace('.', ','));
+            model.r = Double.Parse(rhoTextBox.Text.Replace('.', ','));
+            model.n = Double.Parse(etaTextBox.Text.Replace('.', ','));
+            model.mf = Double.Parse(mfTextBox.Text.Replace('.', ','));
+            model.mc = Double.Parse(mcTextBox.Text.Replace('.', ','));
+            model.mm = Double.Parse(mmTextBox.Text.Replace('.', ','));
+
+
             if (model.Simulate())
             {
                 SeriesCollection = new SeriesCollection

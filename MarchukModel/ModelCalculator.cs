@@ -11,36 +11,35 @@ namespace MarchukModel
         public delegate double Funkcja(double x);
         public delegate double FunkcjaG(double x, double y);
 
-        public double v0 = 0, c0 = 0, f0 = 0;
+        public double v0 = 0.1, c0 = 0.4, f0 = 0;
         public List<double> vt = new List<double>();
         public List<double> ct = new List<double>();
         public List<double> ft = new List<double>();
 
 
-        double a = 0; //alfa (zmienne w czasie)
+        public double a = 0; //alfa (zmienne w czasie)
         //Przykładowe wartości z środków przedziałów
-        double b = 0.8; //beta
-        double g = 0.8; //gamma
-        double tt = 50; //tau
-        double r = 2.0; //rho
-        double n = 8; //eta
+        public double b = 0.8; //beta
+        public double g = 0.8; //gamma     tepiciel
+        public double tt = 1; //tau
+        public double r = 2; //rho
+        public double n = 8; //eta
         //Jeszcze nieznane więc ustawione jako 1
-        double mc = 1; //mi c
-        double mf = 1; //mi f
-        double mm = 1; //mi m
+        public double mc = 0.3; //mi c
+        public double mf = 0.6; //mi f
+        public double mm = 1; //mi m
 
-        double maxt = 160; //koniec przedziału
+        public double maxt = 30; //koniec przedziału
 
 
         public ModelCalculator()
         {
-
+            f0 = (r * c0) / mf;
         }
 
         public bool Simulate()
         {
             vt.Clear(); ct.Clear(); ft.Clear();
-
             vt.Add(v0);
             ct.Add(c0);
             f0 = (r * c0) / mf;
@@ -48,11 +47,21 @@ namespace MarchukModel
 
             for (int t = 1; t <= maxt; t++)
             {
-                double x1=V(t), x2=C(t), x3=F(t);
+                //a = Math.Round(A(t), 5);
+                //Console.WriteLine(t + ": a=" + a);
+                double x1 = V(t);
+
+                //Console.WriteLine(t + ": v=" + x1);
+                double x2 = C(t);
+
+                //Console.WriteLine(t + ": c=" + x2);
+                double x3 = F(t);
+
+                //Console.WriteLine(t + ": f=" + x3);
                 vt.Add(x1);
                 ct.Add(x2);
                 ft.Add(x3);
-                Console.WriteLine("V(" + t + ")=" + x1 + " C(" + t + ")=" + x2 + " F(" + t + ")=" + x3);
+                //Console.WriteLine("V(" + t + ")=" + x1 + " C(" + t + ")=" + x2 + " F(" + t + ")=" + x3);
             }
             return true;
         }
@@ -65,7 +74,7 @@ namespace MarchukModel
             if (vt.Count - 1 >= t) return vt[(int)t];
 
             double result = 0;
-            result = v0 * Math.Exp(b * t - g * Integral(0, t-1, F)); //do t-1 ponieważ patrzymy dla kroku wcześniejszego
+            result = v0 * Math.Exp(b * (t - 1) - g * Integral(0, t - 1, F)); //do t-1 ponieważ patrzymy dla kroku wcześniejszego
             return result;
         }
 
@@ -85,17 +94,43 @@ namespace MarchukModel
             if (t == 0) return ft[0];
             else if (t < 0) return ft[0];
             if (ft.Count - 1 >= t) return ft[(int)t];
-
             double result = 0;
-            result = f0 + n * (V(t - 1) - (v0 * Math.Exp(-mf * t))) + ((r * Math.Exp(-mf + t)) * Integral(0, t - 1, CF)) - ((n * (mf + b) * Math.Exp(-mf * t)) * Integral(0, t - 1, CVF));
+            result = f0 + n * (V(t) - (v0 * Math.Exp(-mf * t))) + ((r * Math.Exp(-mf + t)) * Integral(0, t, CF)) - ((n * (mf + b) * Math.Exp(-mf * t)) * Integral(0, t, CVF));
+            Console.WriteLine("f0" + f0 + " n" + n + " nawias1" + (V(t) - (v0 * Math.Exp(-mf * t))) + " nawias2" + ((r * Math.Exp(-mf + t)) * Integral(0, t, CF)) + " nawias3" + ((n * (mf + b) * Math.Exp(-mf * t)) * Integral(0, t, CVF)));
+            Console.WriteLine("result" + result);
+            if (result < 0) result = 0;
             return result;
         }
+        /*double F(double t)
+        {
+            if (t == 0) return ft[0];
+            else if (t < 0) return ft[0];
+            if (ft.Count - 1 >= t) return ft[(int)t];
 
+            double result = 0;
+            result = f0 + n * (V(t) - (v0 * Math.Exp(-mf * t)) -((mf+b)*Math.Exp(-mf*t)) * Integral(0, t, FF));
+            result += ((a * r) / (g * (mf - mc))) * (v0 * Math.Exp((g * f0 - b) * tt) * (Math.Exp(-mc * t) - Math.Exp(-mf * t)) + ((mc + b) * Math.Exp(-mc * t) * Integral(0, t, FF2)) - ((mf + b) * Math.Exp(-mf * t) * Integral(0, t, FF3)));
+            if (result < 0) result = 0;
+            return result;
+        }
+        */
+        double FF(double s)
+        {
+            return Math.Exp(mf * s) * V(s);
+        }
+        double FF2(double s)
+        {
+            return Math.Exp(mc * s) * V(s-tt);
+        }
+        double FF3(double s)
+        {
+            return Math.Exp(mf * s) * V(s - tt);
+        }
 
         double CF(double t)
         {
             double result = 0;
-            result = (a / g) * ( (mc+b)*Math.Exp(-mc*t) * Integral(0,t, CCF) - V(t) + (v0*Math.Exp(-mc*t)));
+            result = (a / g) *(((mc + b) * Math.Exp(-mc * t))  * Integral(0, t, CCF) - V(t) + (v0 * Math.Exp(-mc * t)));
             result *= Math.Exp(mf * t);
             return result;
         }
@@ -154,7 +189,10 @@ namespace MarchukModel
 
         double A(double t)
         {
-            return 1000 * (1 + (0.9 * Math.Sin(((2 * Math.PI * t) / 1) * (Math.PI / 180))));
+            double ret = 0;
+            ret = (1 + (0.9 * Math.Sin(((2 * Math.PI * t) / 1) * (Math.PI / 180))));
+            ret *= 0.001;
+            return ret;
         }
 
     }
