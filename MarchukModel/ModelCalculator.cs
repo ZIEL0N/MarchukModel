@@ -11,7 +11,7 @@ namespace MarchukModel
         public delegate double Funkcja(double x);
         public delegate double FunkcjaG(double x, double y);
 
-        public double v0 = 0.1, c0 = 0.4, f0 = 0;
+        public double v0 = 0.05, c0 = 0.35, f0 = 0;
         public List<double> vt = new List<double>();
         public List<double> ct = new List<double>();
         public List<double> ft = new List<double>();
@@ -29,7 +29,7 @@ namespace MarchukModel
         public double mf = 0.6; //mi f
         public double mm = 1; //mi m
 
-        public double maxt = 30; //koniec przedziału
+        public double maxt = 50; //koniec przedziału
 
 
         public ModelCalculator()
@@ -47,17 +47,10 @@ namespace MarchukModel
 
             for (int t = 1; t <= maxt; t++)
             {
-                //a = Math.Round(A(t), 5);
-                //Console.WriteLine(t + ": a=" + a);
+                a = A(t);
                 double x1 = V(t);
-
-                //Console.WriteLine(t + ": v=" + x1);
                 double x2 = C(t);
-
-                //Console.WriteLine(t + ": c=" + x2);
                 double x3 = F(t);
-
-                //Console.WriteLine(t + ": f=" + x3);
                 vt.Add(x1);
                 ct.Add(x2);
                 ft.Add(x3);
@@ -88,16 +81,14 @@ namespace MarchukModel
             result = c0 + IntegralG(0, t-1, G);
             return result;
         }
-
+        
         double F(double t)
         {
             if (t == 0) return ft[0];
             else if (t < 0) return ft[0];
             if (ft.Count - 1 >= t) return ft[(int)t];
             double result = 0;
-            result = f0 + n * (V(t) - (v0 * Math.Exp(-mf * t))) + ((r * Math.Exp(-mf + t)) * Integral(0, t, CF)) - ((n * (mf + b) * Math.Exp(-mf * t)) * Integral(0, t, CVF));
-            Console.WriteLine("f0" + f0 + " n" + n + " nawias1" + (V(t) - (v0 * Math.Exp(-mf * t))) + " nawias2" + ((r * Math.Exp(-mf + t)) * Integral(0, t, CF)) + " nawias3" + ((n * (mf + b) * Math.Exp(-mf * t)) * Integral(0, t, CVF)));
-            Console.WriteLine("result" + result);
+            result = f0 + n * (V(t) - (v0 * Math.Exp(-mf * t))) + ((r * Math.Exp(-mf * t)) * Integral(0, t, CF)) - ((n * (mf + b) * Math.Exp(-mf * t)) * Integral(0, t, CVF));
             if (result < 0) result = 0;
             return result;
         }
@@ -113,7 +104,6 @@ namespace MarchukModel
             if (result < 0) result = 0;
             return result;
         }
-        */
         double FF(double s)
         {
             return Math.Exp(mf * s) * V(s);
@@ -125,7 +115,7 @@ namespace MarchukModel
         double FF3(double s)
         {
             return Math.Exp(mf * s) * V(s - tt);
-        }
+        }*/
 
         double CF(double t)
         {
@@ -191,7 +181,8 @@ namespace MarchukModel
         {
             double ret = 0;
             ret = (1 + (0.9 * Math.Sin(((2 * Math.PI * t) / 1) * (Math.PI / 180))));
-            ret *= 0.001;
+            ret /= 1000;
+            Console.WriteLine("A(" + t + ")=" + ret);
             return ret;
         }
 

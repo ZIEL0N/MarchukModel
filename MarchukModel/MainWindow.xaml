@@ -14,19 +14,19 @@
         <Label x:Name="label_Copy" Content="C(0)" HorizontalAlignment="Left" Margin="12,35,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="cTextBox" HorizontalAlignment="Left" Height="22" Margin="48,37,0,0" TextWrapping="Wrap" Text="0,5" VerticalAlignment="Top" Width="54"/>
         <Label x:Name="label_Copy1" Content="F(0)" HorizontalAlignment="Left" Margin="14,62,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="fTextBox" HorizontalAlignment="Left" Height="22" Margin="48,64,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
+        <TextBox x:Name="fTextBox" HorizontalAlignment="Left" Height="22" Margin="48,64,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54" IsReadOnly="True"/>
         <Button x:Name="button" Content="Simulate" HorizontalAlignment="Left" Margin="28,418,0,0" VerticalAlignment="Top" Width="74" Click="button_Click"/>
 
         <Label x:Name="label_Copy2" Content="Tmax" HorizontalAlignment="Left" Margin="14,89,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="maxtTextBox" HorizontalAlignment="Left" Height="22" Margin="48,91,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="label_Copy4" Content="b" HorizontalAlignment="Left" Margin="14,113,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="betaTextBox" HorizontalAlignment="Left" Height="22" Margin="48,115,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="label_Copy5" Content="g" HorizontalAlignment="Left" Margin="14,140,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="gammaTextBox" HorizontalAlignment="Left" Height="22" Margin="48,142,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
+        <!--<Label x:Name="label_Copy6" Content="tt" HorizontalAlignment="Left" Margin="14,197,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="tetaTextBox" HorizontalAlignment="Left" Height="22" Margin="48,199,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
         <Label x:Name="label_Copy3" Content="a" HorizontalAlignment="Left" Margin="14,116,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="alfaTextBox" HorizontalAlignment="Left" Height="22" Margin="48,118,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
-        <Label x:Name="label_Copy4" Content="b" HorizontalAlignment="Left" Margin="14,143,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="betaTextBox" HorizontalAlignment="Left" Height="22" Margin="48,145,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
-        <Label x:Name="label_Copy5" Content="g" HorizontalAlignment="Left" Margin="14,170,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="gammaTextBox" HorizontalAlignment="Left" Height="22" Margin="48,172,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
-        <Label x:Name="label_Copy6" Content="tt" HorizontalAlignment="Left" Margin="14,197,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tetaTextBox" HorizontalAlignment="Left" Height="22" Margin="48,199,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
         <Label x:Name="label_Copy7" Content="r" HorizontalAlignment="Left" Margin="14,224,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="rhoTextBox" HorizontalAlignment="Left" Height="22" Margin="48,226,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
         <Label x:Name="label_Copy8" Content="n" HorizontalAlignment="Left" Margin="14,251,0,0" VerticalAlignment="Top"/>
@@ -36,7 +36,7 @@
         <Label x:Name="label_Copy10" Content="mc" HorizontalAlignment="Left" Margin="14,305,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="mcTextBox" HorizontalAlignment="Left" Height="22" Margin="48,307,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
         <Label x:Name="label_Copy11" Content="mm" HorizontalAlignment="Left" Margin="14,332,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="mmTextBox" HorizontalAlignment="Left" Height="22" Margin="48,334,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>
+        <TextBox x:Name="mmTextBox" HorizontalAlignment="Left" Height="22" Margin="48,334,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="54"/>-->
 
         <lvc:CartesianChart Series="{Binding SeriesCollection}" Margin="123,10,10,10" LegendLocation="Right" >
             <lvc:CartesianChart.AxisY>
